@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-
 const API_URL = "https://outfit-recommendation-b2pv.onrender.com";
 
 const OutfitRecommendation = () => {
@@ -9,32 +8,38 @@ const OutfitRecommendation = () => {
     const [recommendations, setRecommendations] = useState([]);
     const [filters, setFilters] = useState({});
     const [filterOptions, setFilterOptions] = useState({});
+    const [error, setError] = useState(""); // Track API errors
 
-    // Fetch all recommendations from the backend
+    // Fetch recommendations from backend
     const fetchRecommendation = async () => {
+        if (!season) return; // Prevent empty requests
+
         try {
+            setError(""); // Reset error before fetching
             const response = await axios.post(`${API_URL}/recommend`, { season });
             const data = response.data.recommended_products || [];
 
-            // Exclude 'id' column from being displayed
             const filteredData = data.map(({ id, ...rest }) => rest);
             setRecommendations(filteredData);
-
-            if (filteredData.length > 0) {
-                // Extract unique values for dropdowns (excluding 'productDisplayName' and 'season')
-                const options = {};
-                Object.keys(filteredData[0]).forEach((column) => {
-                    if (column !== "productDisplayName" && column !== "season") {
-                        options[column] = [...new Set(filteredData.map((item) => item[column]))];
-                    }
-                });
-                setFilterOptions(options);
-                setFilters(Object.keys(options).reduce((acc, key) => ({ ...acc, [key]: "" }), {}));
-            }
         } catch (error) {
             console.error("Error fetching recommendation:", error);
+            setError("Failed to fetch recommendations. Please try again later.");
         }
     };
+
+    // Update filter options when recommendations change
+    useEffect(() => {
+        if (recommendations.length > 0) {
+            const options = {};
+            Object.keys(recommendations[0]).forEach((column) => {
+                if (column !== "productDisplayName" && column !== "season") {
+                    options[column] = [...new Set(recommendations.map((item) => item[column]))];
+                }
+            });
+            setFilterOptions(options);
+            setFilters(Object.keys(options).reduce((acc, key) => ({ ...acc, [key]: "" }), {}));
+        }
+    }, [recommendations]);
 
     // Handle filter selection
     const handleFilterChange = (column, value) => {
@@ -57,11 +62,16 @@ const OutfitRecommendation = () => {
                 onChange={(e) => setSeason(e.target.value)}
             />
             <button
-                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+                className={`mt-4 px-4 py-2 rounded ${
+                    season ? "bg-blue-500 text-white" : "bg-gray-400 cursor-not-allowed"
+                }`}
                 onClick={fetchRecommendation}
+                disabled={!season}
             >
                 Get Recommendation
             </button>
+
+            {error && <p className="text-red-500 mt-4">{error}</p>} {/* Show API errors */}
 
             {recommendations.length > 0 && (
                 <div className="mt-6 w-full max-w-5xl">
@@ -71,12 +81,12 @@ const OutfitRecommendation = () => {
                             <thead className="sticky top-0 bg-gray-200">
                                 <tr>
                                     {Object.keys(recommendations[0]).map((column) => (
-                                        <th key={column} className="border p-2">{column}</th>
+                                        <th key={column} className="border p-2 w-32 text-left">{column}</th>
                                     ))}
                                 </tr>
                                 {/* Dropdown Filters (excluding 'productDisplayName' and 'season') */}
                                 <tr>
-                                    {Object.keys(recommendations[0]).map((column) => (
+                                    {Object.keys(recommendations[0]).map((column) =>
                                         column !== "productDisplayName" && column !== "season" ? (
                                             <th key={column} className="border p-2">
                                                 <select
@@ -95,7 +105,7 @@ const OutfitRecommendation = () => {
                                         ) : (
                                             <th key={column} className="border p-2"></th>
                                         )
-                                    ))}
+                                    )}
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,13 +113,13 @@ const OutfitRecommendation = () => {
                                     filteredData.map((item, index) => (
                                         <tr key={index} className="text-center">
                                             {Object.values(item).map((value, colIndex) => (
-                                                <td key={colIndex} className="border p-2">{value}</td>
+                                                <td key={colIndex} className="border p-2 w-32">{value}</td>
                                             ))}
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={Object.keys(recommendations[0]).length} className="text-center p-4">
+                                        <td colSpan={Object.keys(recommendations[0]).length} className="text-center p-4 w-full">
                                             No results found. Try changing the filters.
                                         </td>
                                     </tr>
