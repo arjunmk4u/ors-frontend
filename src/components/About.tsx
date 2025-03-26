@@ -1,4 +1,3 @@
-
 const About = () => {
   return (
     <div className="container md:mx-10 px-10 md:px-28 py-10  w-full">
@@ -7,13 +6,20 @@ const About = () => {
       </div>
       <div className="paragraph py-6 md:w-4xl">
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit commodi atque perferendis earum obcaecati at dolorum voluptas quaerat, sit accusantium libero numquam molestias dolorem aliquam nesciunt rerum cumque error consequuntur!
-          Dignissimos unde soluta repellat saepe deserunt incidunt dicta sit reprehenderit? Aspernatur tempore labore, repudiandae unde temporibus ratione. Hic, modi tempora eligendi aspernatur mollitia facilis, fugiat nostrum saepe eos, voluptates repellat?
-          Fugiat quo repudiandae iure sit totam quasi praesentium tempore ipsum minus recusandae ullam facere officia autem possimus repellendus cum dolorum et, eius commodi reiciendis voluptates odit molestiae! Deleniti, dolorem qui.
+          Welcome to OurFit – your go-to website for selecting the perfect
+          outfits based on the current weather and season! Whether it's Summer,
+          Winter, Spring, or Fall, OurFit helps you effortlessly choose the
+          ideal attire to match the climate. Designed for those who find it
+          challenging to pick the right outfit for the season, our platform
+          offers personalized recommendations tailored to your needs. Best of
+          all, OurFit is completely free and accessible to everyone – there's no
+          need to log in or sign up to start using the website. Simply input the
+          weather conditions, and let OurFit guide you to the perfect look for
+          any season!
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default About
+export default About;

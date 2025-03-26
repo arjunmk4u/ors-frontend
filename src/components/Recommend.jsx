@@ -52,11 +52,14 @@ const OutfitRecommendation = () => {
     );
 
     return (
-        <div className="flex flex-col items-center p-6">
-            <h2 className="text-xl font-bold mb-4">Choose Your Season</h2>
+        <div
+            className="flex flex-col items-center p-6 min-h-screen bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('/bg_two.png')" }}
+        >
+            <h2 className="text-xl font-bold mb-4 text-white">Choose Your Season</h2>
             <input
                 type="text"
-                className="border p-2 rounded w-64"
+                className="border p-2 rounded w-64 bg-white"
                 placeholder="Enter season (e.g., Summer, Winter)"
                 value={season}
                 onChange={(e) => setSeason(e.target.value)}
@@ -70,11 +73,11 @@ const OutfitRecommendation = () => {
             >
                 Get Recommendation
             </button>
-
-            {error && <p className="text-red-500 mt-4">{error}</p>} {/* Show API errors */}
-
+    
+            {error && <p className="text-red-500 mt-4">{error}</p>}
+    
             {recommendations.length > 0 && (
-                <div className="mt-6 w-full max-w-5xl">
+                <div className="mt-6 w-full max-w-5xl bg-white bg-opacity-80 p-4 rounded-lg">
                     <h3 className="text-lg font-semibold mb-2">Recommended Outfits:</h3>
                     <div className="overflow-x-auto max-h-[500px] border border-gray-300 rounded-md">
                         <table className="w-full border-collapse border border-gray-300">
@@ -84,11 +87,11 @@ const OutfitRecommendation = () => {
                                         <th key={column} className="border p-2 w-32 text-left">{column}</th>
                                     ))}
                                 </tr>
-                                {/* Dropdown Filters (excluding 'productDisplayName' and 'season') */}
                                 <tr>
                                     {Object.keys(recommendations[0]).map((column) =>
                                         column !== "productDisplayName" && column !== "season"
-                                        && column!== "baseColour" && column!== "articleType" && column!== "subCategory" && column!== "usage" ? (
+                                        && column !== "baseColour" && column !== "articleType"
+                                        && column !== "subCategory" && column !== "usage" ? (
                                             <th key={column} className="border p-2">
                                                 <select
                                                     className="border p-1 w-full"
@@ -132,6 +135,7 @@ const OutfitRecommendation = () => {
             )}
         </div>
     );
+    
 };
 
 export default OutfitRecommendation;
