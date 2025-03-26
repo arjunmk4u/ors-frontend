@@ -9,7 +9,7 @@ const Nav = () => {
             <div className="container  ">
                 <div className="wrapper  md:flex items-center justify-between hidden py-3 w-full text-2xl text-gray-700">
                     <div className="logo mx-10 px-12">
-                        LOGO
+                        OUR-FIT
                     </div>
                     <div className="nav">
                         <div className="nav-items flex justify-around  drop-shadow-2xl ">

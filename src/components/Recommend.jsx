@@ -87,7 +87,8 @@ const OutfitRecommendation = () => {
                                 {/* Dropdown Filters (excluding 'productDisplayName' and 'season') */}
                                 <tr>
                                     {Object.keys(recommendations[0]).map((column) =>
-                                        column !== "productDisplayName" && column !== "season" ? (
+                                        column !== "productDisplayName" && column !== "season"
+                                        && column!== "baseColour" && column!== "articleType" && column!== "subCategory" && column!== "usage" ? (
                                             <th key={column} className="border p-2">
                                                 <select
                                                     className="border p-1 w-full"
