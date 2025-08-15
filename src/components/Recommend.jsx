@@ -53,20 +53,22 @@ const OutfitRecommendation = () => {
 
     return (
         <div
-            className="flex flex-col items-center p-6 min-h-screen bg-cover bg-center bg-no-repeat"
+            className="flex flex-col items-center p-6 min-h-screen bg-cover bg-center bg-no-repeat dark:bg-gray-900"
             style={{ backgroundImage: "url('/bg_two.png')" }}
         >
-            <h2 className="text-xl font-bold mb-4 text-white">Choose Your Season</h2>
+            <h2 className="text-xl font-bold mb-4 text-white dark:text-gray-200">Choose Your Season</h2>
             <input
                 type="text"
-                className="border p-2 rounded w-64 bg-white"
+                className="border p-2 rounded w-64 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white"
                 placeholder="Enter season (e.g., Summer, Winter)"
                 value={season}
                 onChange={(e) => setSeason(e.target.value)}
             />
             <button
-                className={`mt-4 px-4 py-2 rounded ${
-                    season ? "bg-blue-500 text-white" : "bg-gray-400 cursor-not-allowed"
+                className={`mt-4 px-4 py-2 rounded transition-colors duration-200 ${
+                    season 
+                        ? "bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700" 
+                        : "bg-gray-400 dark:bg-gray-600 cursor-not-allowed"
                 }`}
                 onClick={fetchRecommendation}
                 disabled={!season}
@@ -74,17 +76,17 @@ const OutfitRecommendation = () => {
                 Get Recommendation
             </button>
     
-            {error && <p className="text-red-500 mt-4">{error}</p>}
+            {error && <p className="text-red-500 dark:text-red-400 mt-4">{error}</p>}
     
             {recommendations.length > 0 && (
-                <div className="mt-6 w-full max-w-5xl bg-white bg-opacity-80 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold mb-2">Recommended Outfits:</h3>
-                    <div className="overflow-x-auto max-h-[500px] border border-gray-300 rounded-md">
-                        <table className="w-full border-collapse border border-gray-300">
-                            <thead className="sticky top-0 bg-gray-200">
+                <div className="mt-6 w-full max-w-5xl bg-white dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-90 p-4 rounded-lg">
+                    <h3 className="text-lg font-semibold mb-2 dark:text-white">Recommended Outfits:</h3>
+                    <div className="overflow-x-auto max-h-[500px] border border-gray-300 dark:border-gray-600 rounded-md">
+                        <table className="w-full border-collapse border border-gray-300 dark:border-gray-600">
+                            <thead className="sticky top-0 bg-gray-200 dark:bg-gray-700">
                                 <tr>
                                     {Object.keys(recommendations[0]).map((column) => (
-                                        <th key={column} className="border p-2 w-32 text-left">{column}</th>
+                                        <th key={column} className="border border-gray-300 dark:border-gray-600 p-2 w-32 text-left dark:text-white">{column}</th>
                                     ))}
                                 </tr>
                                 <tr>
@@ -92,9 +94,9 @@ const OutfitRecommendation = () => {
                                         column !== "productDisplayName" && column !== "season"
                                         && column !== "baseColour" && column !== "articleType"
                                         && column !== "subCategory" && column !== "usage" ? (
-                                            <th key={column} className="border p-2">
+                                            <th key={column} className="border border-gray-300 dark:border-gray-600 p-2">
                                                 <select
-                                                    className="border p-1 w-full"
+                                                    className="border p-1 w-full dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                                     value={filters[column]}
                                                     onChange={(e) => handleFilterChange(column, e.target.value)}
                                                 >
@@ -107,7 +109,7 @@ const OutfitRecommendation = () => {
                                                 </select>
                                             </th>
                                         ) : (
-                                            <th key={column} className="border p-2"></th>
+                                            <th key={column} className="border border-gray-300 dark:border-gray-600 p-2"></th>
                                         )
                                     )}
                                 </tr>
@@ -115,15 +117,15 @@ const OutfitRecommendation = () => {
                             <tbody>
                                 {filteredData.length > 0 ? (
                                     filteredData.map((item, index) => (
-                                        <tr key={index} className="text-center">
+                                        <tr key={index} className="text-center dark:text-white">
                                             {Object.values(item).map((value, colIndex) => (
-                                                <td key={colIndex} className="border p-2 w-32">{value}</td>
+                                                <td key={colIndex} className="border border-gray-300 dark:border-gray-600 p-2 w-32">{value}</td>
                                             ))}
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={Object.keys(recommendations[0]).length} className="text-center p-4 w-full">
+                                        <td colSpan={Object.keys(recommendations[0]).length} className="text-center p-4 w-full dark:text-white">
                                             No results found. Try changing the filters.
                                         </td>
                                     </tr>
